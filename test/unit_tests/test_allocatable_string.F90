@@ -22,7 +22,8 @@ contains
 !-------------------------------------------------------------------------------
 
   subroutine test_string_list_with_character
-
+  ! fstring_list: parse comma-spaced text string into correct number of columns
+    
     ! [ LOCALS ]
     integer (c_int), parameter       :: MAX_STR_LEN = 8096
     character (len=MAX_STR_LEN)           :: sString
