@@ -45,6 +45,7 @@ contains
 !-------------------------------------------------------------------------------
 
   subroutine test_crop_coefficients_parsing
+  ! crop_coefficients__FAO56: test growth stage table parsing
 
     real (c_float)    :: planting_doy
 
@@ -56,6 +57,7 @@ end subroutine test_crop_coefficients_parsing
 !-------------------------------------------------------------------------------
 
   subroutine test_crop_coefficients_basic
+  ! crop_coefficients__FAO56: test crop coefficient interpretation when table vals missing
 
     real (c_float)  :: Kcb
 
@@ -90,6 +92,7 @@ end subroutine test_crop_coefficients_parsing
   end subroutine test_crop_coefficients_basic
 
   subroutine test_gdd_max_plus_min_simple
+  ! growing_degree_day: calculate simple GDD as compared to Wilson and Barnett (1983) values 
 
     ! Values taken from:
     ! Wilson, L.T., and Barnett, W.W., 1983, Degree-days: an aid in crop and

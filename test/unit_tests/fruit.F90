@@ -104,36 +104,22 @@ module fruit
   public :: &
     init_fruit
   public :: &
-    get_last_message, &
-    is_last_passed, &
-    is_case_passed, &
-    add_success, addSuccess, &
-    set_unit_name, get_unit_name, &
-    set_case_name, get_case_name, &
-    failed_assert_action, get_total_count, getTotalCount, &
-    get_failed_count, getFailedCount, is_all_successful, isAllSuccessful, &
-    run_test_case, runTestCase
-  public :: assert_equals,     assertEquals
-  public :: assert_not_equals, assertNotEquals
-  public :: assert_true,       assertTrue
+    get_last_message,                      &
+    is_last_passed,                        &
+    is_case_passed,                        &
+    add_success,                           &
+    set_unit_name, get_unit_name,          &
+    set_case_name, get_case_name,          &
+    failed_assert_action, get_total_count, &
+    get_failed_count, is_all_successful,   &
+    run_test_case
+  public :: assert_equals
+  public :: assert_not_equals
+  public :: assert_true
   public :: stash_test_suite, restore_test_suite
   public :: FRUIT_PREFIX_LEN_MAX
   public :: override_xml_work, end_override_xml_work
   public :: get_assert_and_case_count
-
-  public :: initializeFruit
-  interface initializeFruit
-     module procedure obsolete_initializeFruit_
-  end interface
-
-  public :: getTestSummary
-  interface getTestSummary
-     module procedure obsolete_getTestSummary_
-  end interface
-
-  interface assertTrue
-     module procedure obsolete_assert_true_logical_
-  end interface
 
   public ::          assert_false
   interface          assert_false
@@ -270,10 +256,6 @@ module fruit
 
   end interface
 
-  interface addSuccess
-     module procedure obsolete_addSuccess_
-  end interface
-
   public ::           add_fail
   interface           add_fail
      module procedure add_fail_
@@ -284,18 +266,6 @@ module fruit
   interface           addFail
      module procedure add_fail_
      module procedure add_fail_unit_
-  end interface
-
-  interface getTotalCount
-     module procedure obsolete_getTotalCount_
-  end interface
-
-  interface getFailedCount
-     module procedure obsolete_getFailedCount_
-  end interface
-
-  interface isAllSuccessful
-     module procedure obsolete_isAllSuccessful_
   end interface
 
   interface run_test_case
@@ -428,7 +398,9 @@ module fruit
   interface           fruit_show_dots
     module procedure  fruit_show_dots_
   end interface
+
 contains
+
   subroutine init_fruit(rank)
     integer (c_int), intent(in), optional :: rank
     logical :: if_write
@@ -618,17 +590,6 @@ contains
     int_to_str = adjustl(int_to_str)
   end function int_to_str
 
-  subroutine obsolete_initializeFruit_
-    call obsolete_ ("initializeFruit is OBSOLETE.  replaced by init_fruit")
-    call init_fruit
-  end subroutine obsolete_initializeFruit_
-
-  subroutine obsolete_getTestSummary_
-    call obsolete_ ( "getTestSummary is OBSOLETE.  replaced by fruit_summary")
-    call fruit_summary_
-  end subroutine obsolete_getTestSummary_
-
-
   logical function fruit_if_case_failed_()
     if (failed_assert_count == 0) then
       fruit_if_case_failed_ = .false.
@@ -667,6 +628,9 @@ contains
 
     ! Set the name of the unit test
     call set_case_name( tc_name )
+
+    write(stdout,"(/,a)") trim(tc_name)
+    write(stdout,"('   assertions => ')",ADVANCE='NO') 
 
     last_passed = .true.
     case_passed = .true.
@@ -766,11 +730,6 @@ contains
          succ_case + fail_case, ' ]'
   end subroutine fruit_summary_table_
 
-  subroutine obsolete_addSuccess_
-    call obsolete_ ("addSuccess is OBSOLETE.  replaced by add_success")
-    call add_success
-  end subroutine obsolete_addSuccess_
-
   subroutine add_fail_ (message)
     character (*), intent (in), optional :: message
     call failed_assert_action('none', 'none', message, if_is = .true.)
@@ -782,12 +741,6 @@ contains
 
     call add_fail_ ("[in " //  unitName // "(fail)]: " //  message)
   end subroutine add_fail_unit_
-
-  subroutine obsolete_isAllSuccessful_(result)
-    logical, intent(out) :: result
-    call obsolete_ ('subroutine isAllSuccessful is changed to function is_all_successful.')
-    result = (failed_assert_count .eq. 0 )
-  end subroutine obsolete_isAllSuccessful_
 
   subroutine is_all_successful(result)
     logical, intent(out) :: result
@@ -802,13 +755,17 @@ contains
   !!  so that it can be stashed and restored.
 
     !$omp critical      (FRUIT_OMP_ADD_OUTPUT_MARK)
-    linechar_count = linechar_count + 1
-    if ( linechar_count .lt. MAX_MARKS_PER_LINE ) then
-       write(stdout,"(A1)",ADVANCE='NO') chr
-    else
-       write(stdout,"(A1)",ADVANCE='YES') chr
-       linechar_count = 0
-    endif
+!    linechar_count = linechar_count + 1
+!    if ( linechar_count .lt. MAX_MARKS_PER_LINE ) then
+!       write(stdout,"(A1)",ADVANCE='NO') chr
+!    else
+!       write(stdout,"(A1)",ADVANCE='YES') chr
+!       linechar_count = 0
+!    endif
+
+    ! let's not worry about fancy wrapping for now...
+    write(stdout,"(A1)",ADVANCE='NO') chr
+
     !$omp end critical  (FRUIT_OMP_ADD_OUTPUT_MARK)
   end subroutine output_mark_
 
@@ -900,44 +857,16 @@ contains
     enddo
   end subroutine get_messages_
 
-  subroutine obsolete_getTotalCount_ (count)
-    integer, intent (out) :: count
-    call obsolete_ (' getTotalCount subroutine is replaced by function get_total_count')
-    call get_total_count(count)
-  end subroutine obsolete_getTotalCount_
-
   subroutine get_total_count(count)
     integer (c_int), intent(out) :: count
 
     count = successful_assert_count + failed_assert_count
   end subroutine get_total_count
 
-  subroutine obsolete_getFailedCount_ (count)
-    integer, intent (out) :: count
-
-    call obsolete_ (' getFailedCount subroutine is replaced by function get_failed_count')
-    call get_failed_count (count)
-
-  end subroutine obsolete_getFailedCount_
-
   subroutine get_failed_count (count)
     integer (c_int), intent(out) :: count
     count = failed_assert_count
   end subroutine get_failed_count
-
-  subroutine obsolete_ (message)
-    character (*), intent (in), optional :: message
-    write (stdout,*)
-    write (stdout,*) "<<<<<<<<<<<<<<<<<<<<<<<<<< WARNING from FRUIT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-    write (stdout,*) message
-    write (stdout,*)
-    write (stdout,*) " old calls will be replaced in the next release in Jan 2009"
-    write (stdout,*) " Naming convention for all the method calls are changed to: first_name from"
-    write (stdout,*) " firstName.  Subroutines that will be deleted: assertEquals, assertNotEquals,"
-    write (stdout,*) " assertTrue, addSuccessful, addFail, etc."
-    write (stdout,*) "<<<<<<<<<<<<<<<<<<<<<<<<<< WARNING from FRUIT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-    write (stdout,*)
-  end subroutine obsolete_
 
   subroutine add_success
     !$omp critical     (FRUIT_OMP_ADD_SUCCESS)
@@ -1139,13 +1068,6 @@ contains
   !--------------------------------------------------------------------------------
   ! all assertions
   !--------------------------------------------------------------------------------
-  subroutine obsolete_assert_true_logical_(var1, message)
-    logical, intent (in) :: var1
-    character (*), intent (in), optional :: message
-
-    call obsolete_ ('assertTrue subroutine is replaced by function assert_true')
-    call assert_true(var1, message)
-  end subroutine obsolete_assert_true_logical_
 
   subroutine assert_true (var1, message)
     logical, intent (in) :: var1

@@ -23,13 +23,13 @@ program tests
   call init_fruit
 
   ! test_allocatable_string.F90:
-  call run_test_case(test_string_list_with_character,"[ LOCALS ]")
+  call run_test_case(test_string_list_with_character,"fstring_list: parse comma-spaced text string into correct number of columns")
 
   ! test_crop_coefficients__FAO56.F90:
   call setup_crop_coefficients__FAO56
-  call run_test_case(test_crop_coefficients_parsing,"test_crop_coefficients_parsing")
-  call run_test_case(test_crop_coefficients_basic,"test_crop_coefficients_basic")
-  call run_test_case(test_gdd_max_plus_min_simple,"test_gdd_max_plus_min_simple")
+  call run_test_case(test_crop_coefficients_parsing,"crop_coefficients__FAO56: test growth stage table parsing")
+  call run_test_case(test_crop_coefficients_basic,"crop_coefficients__FAO56: test crop coefficient interpretation when table vals missing")
+  call run_test_case(test_gdd_max_plus_min_simple,"growing_degree_day: calculate simple GDD as compared to Wilson and Barnett (1983) values")
 
   ! test_datetime.F90:
   call run_test_case(test_datetime_basic_dateparse,"datetime: parse with default mm/dd/yyyy date format")

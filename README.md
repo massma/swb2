@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/smwesten-usgs/swb2.svg?branch=master)](https://travis-ci.org/smwesten-usgs/swb2)
 
-SWB2 - A Modified Thornthwaite-Mather Soil-Water-Balance Code for Estimating Groundwater Recharge
-------------------------------------------------------------------------------------------------
+# SWB2 - A Modified Thornthwaite-Mather Soil-Water-Balance Code for Estimating Groundwater Recharge
 
 The Soil-Water-Balance (SWB) computer code has been developed to calculate spatial and temporal
  variations in groundwater recharge. The SWB model calculates recharge by use of commonly available
@@ -17,8 +16,8 @@ Official documentation for the code may be found here: https://pubs.er.usgs.gov/
 Unofficial online supplemental documentation of the code may be found [here](http://smwesten-usgs.github.io/swb2/).
 
 
-Disclaimer
-----------
+## Disclaimer
+
 This software is in the public domain because it contains materials that originally came from the U.S. Geological Survey, an agency of the United States Department of Interior. For more information, see the official USGS copyright policy at [http://www.usgs.gov/visual-id/credit_usgs.html#copyright](http://www.usgs.gov/visual-id/credit_usgs.html#copyright)
 
 This information is preliminary or provisional and is subject to revision. It is being provided to meet the need for timely best science. The information has not received final approval by the U.S. Geological Survey (USGS) and is provided on the condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from the authorized or unauthorized use of the information. Although this software program has been used by the USGS, no warranty, expressed or implied, is made by the USGS or the U.S. Government as to the accuracy and functioning of the program and related program material nor shall the fact of distribution constitute any such warranty, and no responsibility is assumed by the USGS in connection therewith.
@@ -31,9 +30,13 @@ This software is provided "AS IS."
   ](http://creativecommons.org/publicdomain/zero/1.0/)
 
 
-Open Source
------------
-This software makes use of several open source projects in order to improve functionality for users. These projects include:
+## Open Source
+
+This software makes use of several open source projects in order to improve functionality for users as well as to provide support for automated testing of the code during development.
+
+### Libraries
+
+ SWB makes use of functionality provided by a number of libraries that enable the code to ingest grids of data whose geographic projections may differ from the SWB project geographic projection (PROJ) and to read and write grids in the netCDF file format:
 
 1) PROJ      - https://proj.org/
 2) netCDF    - https://www.unidata.ucar.edu/software/netcdf/
@@ -44,3 +47,6 @@ This software makes use of several open source projects in order to improve func
 
 `netCDF`, `HDF5`, and `zlib` are either linked statically or dynamically depending on the platform. Generally static linking is possible using `gfortran` on Windows platforms. Dynamic linking of these libraries is often easier on Macintosh and Linux platforms.
 
+### Testing
+
+This project makes use of a unit testing framework for Fortran code called FRUIT (Andrew Hang Chen and contributors, https://sourceforge.net/projects/fortranxunit/). The FRUIT code originally relied on supplemental code written in Ruby to assist in generating unit test code. Because we are more familiar with the Python language, we chose to use a second package called pyFRUIT (Adrian Croucher, https://github.com/acroucher/FRUITPy) to generate the Fortran unit testing code for use with the FRUIT unit testing framework. 
