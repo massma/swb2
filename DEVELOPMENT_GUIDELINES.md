@@ -4,7 +4,7 @@
 
 From release version 2.0.1, we will adopt commit messages based on the "Conventional Commits" specification. Commit messages will be prefixed with one of the following:
 
-fix:      for commits that patche a bug in your codebase (this correlates with PATCH in semantic versioning).
+fix:      for commits that patch a bug in your codebase (this correlates with PATCH in semantic versioning).
 feat:     a commit of the type feat introduces a new feature to the codebase (this correlates with MINOR in semantic versioning).
 chore:     miscellaneous commit 
 docs:      commit associated with updating of online documentation files
