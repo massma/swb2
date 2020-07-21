@@ -219,8 +219,8 @@ set(SRCS
       interception__bucket.F90
       interception__gash.F90
       irrigation.F90
-      kiss_random_number_generator.F90
       logfiles.F90
+      luxury_random_number_generator.F90
       mass_balance__impervious_surface.F90
       mass_balance__interception.F90
       mass_balance__snow.F90

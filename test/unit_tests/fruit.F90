@@ -137,6 +137,9 @@ module fruit
     module procedure assert_eq_int_
     module procedure assert_eq_1d_int_
     module procedure assert_eq_2d_int_
+    module procedure assert_eq_c_long_long_
+    module procedure assert_eq_1d_c_long_long_
+    module procedure assert_eq_2d_c_long_long_
     module procedure assert_eq_real_
     module procedure assert_eq_real_in_range_
     module procedure assert_eq_1d_real_
@@ -1257,6 +1260,61 @@ contains
     enddo
     call add_success
   end subroutine assert_eq_2d_int_
+
+  !------ 0d_c_long_long ------
+  subroutine assert_eq_c_long_long_(var1, var2, message)
+
+    integer (c_long_long), intent (in) :: var1, var2
+
+    character(len = *), intent (in), optional :: message
+
+        if (var1 /= var2) then
+          call failed_assert_action(&
+          & to_s(var1), &
+          & to_s(var2), message, if_is = .true.)
+          return
+        endif
+
+    call add_success
+  end subroutine assert_eq_c_long_long_
+
+  !------ 1d_c_long_long ------
+  subroutine assert_eq_1d_c_long_long_(var1, var2, n, message)
+    integer (c_int), intent (in) :: n
+    integer (c_int)              :: i
+    integer (c_long_long), intent (in) :: var1(n), var2(n)
+
+    character(len = *), intent (in), optional :: message
+    do i = 1, n
+        if (var1(i) /= var2(i)) then
+          call failed_assert_action(&
+          & to_s(var1(i)), &
+          & to_s(var2(i)), '1d array has difference, ' // message, if_is = .true.)
+          return
+        endif
+    enddo
+    call add_success
+  end subroutine assert_eq_1d_c_long_long_
+
+  !------ 2d_int ------
+  subroutine assert_eq_2d_c_long_long_(var1, var2, n, m, message)
+    integer (c_int), intent (in) :: n, m
+    integer (c_int)              :: i, j
+    integer (c_long_long), intent (in) :: var1(n, m), var2(n, m)
+
+    character(len = *), intent (in), optional :: message
+    do j = 1, m
+      do i = 1, n
+        if (var1(i, j) /= var2(i, j)) then
+          call failed_assert_action(&
+          & to_s(var1(i, j)), &
+          & to_s(var2(i, j)), '2d array has difference, ' // message, if_is = .true.)
+          return
+        endif
+      enddo
+    enddo
+    call add_success
+  end subroutine assert_eq_2d_c_long_long_
 
   !------ 0d_real ------
   subroutine assert_eq_real_(var1, var2, message)

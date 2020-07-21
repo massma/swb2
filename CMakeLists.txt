@@ -7,6 +7,7 @@ message("Processing top-level CMakelists.txt for project swb2")
 set(SWB_MAJOR_VERSION "2")
 set(SWB_MINOR_VERSION "0")
 set(SWB_PATCH_VERSION "1")
+set(SWB_LATEST_RELEASE_HASH "55709e8")
 
 #------------------------------------------------------------------------------------#
 #                           Force out-of-source build
@@ -73,4 +74,4 @@ else()
   )
 endif()
 
-file(WRITE VERSION "${SWB_MAJOR_VERSION}.${SWB_MINOR_VERSION}${SWB_PATCH_VERSION}, build ${GIT_COMMITS_ON_BRANCH}")
+file(WRITE VERSION "${SWB_MAJOR_VERSION}.${SWB_MINOR_VERSION}.${SWB_PATCH_VERSION}, build ${GIT_COMMITS_ON_BRANCH}")

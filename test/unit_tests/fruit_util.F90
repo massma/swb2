@@ -39,6 +39,7 @@ module fruit_util
 
   interface to_s
      module procedure to_s_int_
+     module procedure to_s_c_long_long_
      module procedure to_s_real_
      module procedure to_s_logical_
      module procedure to_s_double_
@@ -61,6 +62,15 @@ contains
     write (result, *) value
     to_s_int_ = adjustl(trim(result))
   end function to_s_int_
+
+  function to_s_c_long_long_ (value)
+    implicit none
+    character(len=500):: to_s_c_long_long_
+    integer (c_long_long), intent(in) :: value
+    character(len=500) :: result
+    write (result, *) value
+    to_s_c_long_long_ = adjustl(trim(result))
+  end function to_s_c_long_long_
 
   function to_s_real_ (value)
     implicit none

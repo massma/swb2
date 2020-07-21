@@ -202,7 +202,7 @@ contains
         //"; msg: "//trim(error_str), __SRCNAME__, __LINE__ )
     endif
 
-    if ( RANDOM_FRAGMENT_SEQUENCES ) call initialize_kiss_rng( RANDOM_START )
+    if ( RANDOM_FRAGMENT_SEQUENCES ) call initialize_kiss_rng( int(RANDOM_START, kind=I8) )
 
     call process_fragment_sets()
 

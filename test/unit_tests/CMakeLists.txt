@@ -8,6 +8,12 @@ file(GLOB fortran_files
      RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
      *.F90 )
 
+file(GLOB LOGFILES
+     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+     *LOG*.md)
+
+#file(REMOVE ${LOGFILES})
+
 add_executable(swbtest
               ${fortran_files})
 
