@@ -10,7 +10,7 @@ rm -f *.txt
 
 export CMAKEROOT=/usr/bin/cmake
 # define where 'make copy' will place executables
-export INSTALL_PREFIX=/usr/local/bin
+export INSTALL_PREFIX=./
 
 # define other variables for use in the CMakeList.txt file
 # options are "Release" or "Debug"
@@ -20,8 +20,8 @@ export BUILD_TYPE="Release"
 export CMAKE_Fortran_FLAGS_DEBUG="-O0 -g -ggdb -Wuninitialized -fbacktrace -fcheck=all -fexceptions -fmax-errors=6 -fbackslash -ffree-line-length-none -Wno-maybe-uninitialized"
 export CMAKE_Fortran_FLAGS_RELEASE="-O2 -mtune=native -ffree-line-length-512 -fbackslash -ffpe-summary='none' -Wno-maybe-uninitialized"
 
-export FC=gfortran-6
-export CC=gcc-6
+export FC=gfortran
+export CC=gcc
 
 cmake "../../.." -G "Unix Makefiles"                         \
 -DCMAKE_BUILD_TYPE="$BUILD_TYPE "                            \
